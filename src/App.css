@@ -1,0 +1,23 @@
+/* App.css */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Ensures canvas fills the screen without causing scroll */
+.ballpit-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Below the Home component */
+}
+
+/* Optional: Prevent body margin */
+body {
+  margin: 0;
+   background: #000;
+}
