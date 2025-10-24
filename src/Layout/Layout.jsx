@@ -5,7 +5,7 @@ function Layout() {
   return (
     <div className="main-layout">
       <Home />
-      <About />
+    
     </div>
   );
 }

@@ -1,211 +1,187 @@
 import React, { useState, useEffect } from 'react';
-import { FaStar, FaUsers, FaClock, FaArrowRight, FaGamepad, FaDice, FaChessBoard, FaHeart } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Games.css';
 
-const GameShowcase = () => {
-  const [isVisible, setIsVisible] = useState(false);
+const Games = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hoveredGame, setHoveredGame] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setIsVisible(true);
+    setIsLoaded(true);
+    document.body.classList.add('games-page-active');
+    
+    return () => {
+      document.body.classList.remove('games-page-active');
+    };
   }, []);
 
-  const featuredGame = {
-    id: 1,
-    title: "Kingdom Quest",
-    subtitle: "The Epic Medieval Adventure",
-    description: "Embark on a legendary journey to build your medieval kingdom, forge alliances, and conquer neighboring lands in this strategic masterpiece. Kingdom Quest combines deep strategy with immersive storytelling for an unforgettable gaming experience.",
-    image: "/api/placeholder/600/400",
-    players: "2-4",
-    duration: "60-90min",
-    difficulty: "Medium",
-    rating: 4.8,
-    category: "Strategy",
-    price: "$49.99",
-    features: [
-      "Deep strategic gameplay",
-      "Beautiful medieval artwork",
-      "Replayable with variable setups",
-      "Family-friendly yet challenging",
-      "Premium components"
-    ],
-    age: "10+",
-    designer: "Elena Masters"
-  };
-
-  const upcomingGames = [
-    { id: 2, name: "Cosmic Encounter", status: "In Development", eta: "Q2 2024" },
-    { id: 3, name: "Mystic Woods", status: "Design Phase", eta: "Q3 2024" },
-    { id: 4, name: "Empire Builders", status: "Concept", eta: "Q4 2024" }
+  const games = [
+    {
+      id: 'deceptionist',
+      title: 'Deceptionist',
+      subtitle: 'A Game of Lies and Strategy',
+      description: 'Uncover the truth while hiding your own secrets in this social deduction masterpiece. Outwit your opponents through cunning strategies and clever bluffs.',
+      image: '/api/placeholder/400/500',
+      players: '2-6',
+      duration: '45-90min',
+      age: '14+',
+      rating: '4.8',
+      tags: ['Social Deduction', 'Strategy', 'Bluffing', 'Party Game'],
+      featured: true,
+      color: '#7877c6',
+      releaseDate: '2024'
+    }
+    // Add more games here in the future
   ];
 
+  const handleGameSelect = (gameId) => {
+    navigate(`/games/${gameId}`);
+  };
+
   return (
-    <section className="game-showcase">
-      {/* Animated Background Elements */}
-      <div className="background-elements">
-        <div className="floating-shape shape-1"></div>
-        <div className="floating-shape shape-2"></div>
-        <div className="floating-shape shape-3"></div>
-        <div className="floating-shape shape-4"></div>
-      </div>
-
-      <div className="showcase-container">
-        {/* Header Section */}
-        <div className={`showcase-header ${isVisible ? 'visible' : ''}`}>
-          <h1 className="main-title">Our Premier Board Game</h1>
-          <p className="main-subtitle">Experience the first in our series of epic tabletop adventures</p>
-          <div className="header-decoration">
-            <FaDice className="decoration-icon" />
-            <FaChessBoard className="decoration-icon" />
-            <FaGamepad className="decoration-icon" />
+    <div className={`games-gallery ${isLoaded ? 'loaded' : ''}`}>
+      {/* Hero Section */}
+      <section className="games-hero">
+        <div className="hero-background">
+          <div className="floating-particles">
+            {[...Array(20)].map((_, i) => (
+              <div key={i} className="particle" style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${3 + Math.random() * 4}s`
+              }}></div>
+            ))}
           </div>
         </div>
-
-        {/* Main Game Showcase */}
-        <div className={`featured-game ${isVisible ? 'visible' : ''}`}>
-          <div className="game-visual">
-            <div className="image-container">
-              <img 
-                src={featuredGame.image} 
-                alt={featuredGame.title}
-                className="game-main-image"
-              />
-              <div className="image-overlay"></div>
-              <div className="game-badges">
-                <span className="badge primary">Featured Game</span>
-                <span className="badge secondary">{featuredGame.category}</span>
-              </div>
-            </div>
-            
-            {/* Interactive Elements */}
-            <div className="floating-elements">
-              <div className="floating-card card-1">
-                <FaUsers />
-                <span>{featuredGame.players} Players</span>
-              </div>
-              <div className="floating-card card-2">
-                <FaClock />
-                <span>{featuredGame.duration}</span>
-              </div>
-              <div className="floating-card card-3">
-                <FaStar />
-                <span>Rating: {featuredGame.rating}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="game-details">
-            <div className="game-header">
-              <h2 className="game-title">{featuredGame.title}</h2>
-              <span className="game-subtitle">{featuredGame.subtitle}</span>
-              <div className="rating-display">
-                <div className="stars">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar 
-                      key={i} 
-                      className={i < Math.floor(featuredGame.rating) ? "star filled" : "star"}
-                    />
-                  ))}
-                  <span className="rating-text">({featuredGame.rating}/5)</span>
-                </div>
-              </div>
-            </div>
-
-            <p className="game-description">{featuredGame.description}</p>
-
-            <div className="game-specs">
-              <div className="spec-grid">
-                <div className="spec-item">
-                  <span className="spec-label">Difficulty</span>
-                  <span className="spec-value">{featuredGame.difficulty}</span>
-                </div>
-                <div className="spec-item">
-                  <span className="spec-label">Age Range</span>
-                  <span className="spec-value">{featuredGame.age}</span>
-                </div>
-                <div className="spec-item">
-                  <span className="spec-label">Designer</span>
-                  <span className="spec-value">{featuredGame.designer}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="game-features">
-              <h3>Key Features</h3>
-              <ul className="features-list">
-                {featuredGame.features.map((feature, index) => (
-                  <li key={index} className="feature-item">
-                    <FaHeart className="feature-icon" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="game-actions">
-              <div className="price-section">
-                <span className="price">{featuredGame.price}</span>
-                <span className="price-note">Includes free shipping</span>
-              </div>
-              <div className="action-buttons">
-                <button className="btn primary">
-                  Pre-Order Now <FaArrowRight />
-                </button>
-                <button className="btn secondary">
-                  Learn More
-                </button>
-              </div>
+        
+        <div className="hero-content">
+          <div className="brand-intro">
+            <h1 className="brand-title">
+              Phantom <span className="gradient-text">Gambit</span>
+            </h1>
+            <p className="brand-subtitle">Where Strategy Meets Deception</p>
+            <div className="brand-tagline">
+              Immerse yourself in our collection of mind-bending board games designed 
+              for strategic thinkers and master deceivers. Each game offers unique 
+              challenges and unforgettable experiences.
             </div>
           </div>
         </div>
+        
+        <div className="scroll-indicator">
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <p>Explore Our Games</p>
+        </div>
+      </section>
 
-        {/* Coming Soon Section */}
-        <div className={`coming-soon ${isVisible ? 'visible' : ''}`}>
-          <div className="coming-soon-header">
-            <h2>More Epic Adventures Coming Soon</h2>
-            <p>Our creative team is working on these exciting new games</p>
+      {/* Games Grid Section */}
+      <section className="games-grid-section">
+        <div className="container">
+          <div className="section-header">
+            <h2>Our Games Collection</h2>
+            <p>Discover unique gaming experiences crafted for strategic minds</p>
           </div>
 
-          <div className="upcoming-games-grid">
-            {upcomingGames.map((game) => (
-              <div key={game.id} className="upcoming-game-card">
-                <div className="game-status">{game.status}</div>
-                <h3 className="upcoming-game-title">{game.name}</h3>
-                <div className="release-info">
-                  <span className="eta">Estimated: {game.eta}</span>
-                </div>
-                <div className="progress-indicator">
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{
-                        width: game.status === 'In Development' ? '70%' : 
-                               game.status === 'Design Phase' ? '40%' : '20%'
-                      }}
-                    ></div>
+          <div className="games-grid">
+            {games.map((game, index) => (
+              <div
+                key={game.id}
+                className={`game-card ${game.featured ? 'featured' : ''} ${
+                  hoveredGame === game.id ? 'hovered' : ''
+                }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onMouseEnter={() => setHoveredGame(game.id)}
+                onMouseLeave={() => setHoveredGame(null)}
+                onClick={() => handleGameSelect(game.id)}
+              >
+                <div className="game-card-inner">
+                  <div className="card-background" style={{
+                    background: `linear-gradient(135deg, ${game.color}20, #000000)`
+                  }}></div>
+                  
+                  <div className="game-badge">
+                    {game.featured && <span className="featured-badge">⭐ Featured</span>}
+                    <span className="rating-badge">★ {game.rating}</span>
+                    <span className="release-badge">{game.releaseDate}</span>
                   </div>
+
+                  <div className="game-content">
+                    <div className="game-header">
+                      <h3 className="game-title">{game.title}</h3>
+                      <p className="game-subtitle">{game.subtitle}</p>
+                    </div>
+                    
+                    <p className="game-description">{game.description}</p>
+                    
+                    <div className="game-meta">
+                      <div className="meta-item">
+                        <span className="meta-icon">👥</span>
+                        <span>{game.players} Players</span>
+                      </div>
+                      <div className="meta-item">
+                        <span className="meta-icon">⏱️</span>
+                        <span>{game.duration}</span>
+                      </div>
+                      <div className="meta-item">
+                        <span className="meta-icon">🎯</span>
+                        <span>Age {game.age}</span>
+                      </div>
+                    </div>
+
+                    <div className="game-tags">
+                      {game.tags.map((tag, tagIndex) => (
+                        <span key={tagIndex} className="game-tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="card-cta">
+                    <button className="explore-btn">
+                      Explore Game
+                      <span className="btn-arrow">→</span>
+                    </button>
+                  </div>
+
+                  <div className="card-glow" style={{
+                    background: `radial-gradient(circle at center, ${game.color}30, transparent 70%)`
+                  }}></div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="newsletter-cta">
-            <h3>Be the First to Know</h3>
-            <p>Get notified when new games are released</p>
-            <div className="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email address"
-                className="email-input"
-              />
-              <button className="subscribe-btn">
-                Notify Me <FaArrowRight />
-              </button>
+          {/* Coming Soon Section */}
+          <div className="coming-soon-section">
+            <div className="coming-soon-content">
+              <h3>More Strategic Experiences Coming Soon</h3>
+              <p>We're constantly developing new games that challenge your mind and test your deception skills</p>
+              <div className="coming-soon-grid">
+                {[
+                  { name: "Shadow Realms", type: "Fantasy Strategy" },
+                  { name: "Neon Nexus", type: "Cyberpunk Bluffing" },
+                  { name: "Royal Intrigue", type: "Political Deception" }
+                ].map((game, index) => (
+                  <div key={index} className="coming-soon-card">
+                    <div className="mystery-game">
+                      <div className="mystery-icon">🎮</div>
+                      <div className="mystery-content">
+                        <h4>{game.name}</h4>
+                        <p>{game.type}</p>
+                      </div>
+                      <div className="coming-soon-badge">Coming Soon</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 
-export default GameShowcase;
+export default Games;
