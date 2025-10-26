@@ -11,6 +11,7 @@ import Layout from './Layout/Layout';
 
 import GameDetails from './GamesDetail/GamesDetail';
 import Games from './Games/Games'
+import Contact from './Contact/Contact';
 
 function AppContent() {
   const [isBallpitReady, setIsBallpitReady] = useState(false);
@@ -47,6 +48,7 @@ function AppContent() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+         <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );

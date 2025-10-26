@@ -4,35 +4,28 @@ import './Games.css';
 
 const Games = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hoveredGame, setHoveredGame] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoaded(true);
-    document.body.classList.add('games-page-active');
-    
-    return () => {
-      document.body.classList.remove('games-page-active');
-    };
   }, []);
 
   const games = [
     {
       id: 'deceptionist',
-      title: 'Deceptionist',
-      subtitle: 'A Game of Lies and Strategy',
-      description: 'Uncover the truth while hiding your own secrets in this social deduction masterpiece. Outwit your opponents through cunning strategies and clever bluffs.',
-      image: '/api/placeholder/400/500',
-      players: '2-6',
-      duration: '45-90min',
-      age: '14+',
-      rating: '4.8',
-      tags: ['Social Deduction', 'Strategy', 'Bluffing', 'Party Game'],
+      title: "Deceptionist",
+      subtitle: "A Game of Lies and Strategy",
+      description: "Uncover the truth while hiding your own secrets in this social deduction masterpiece. Outwit your opponents through cunning strategies and clever bluffs.",
+      players: "2-6",
+      duration: "45-90min",
+      age: "14+",
+      rating: "4.8",
+      tags: ["Social Deduction", "Strategy", "Bluffing", "Party Game"],
       featured: true,
-      color: '#7877c6',
-      releaseDate: '2024'
+      color: "#7877c6",
+      gradient: "linear-gradient(135deg, #7877c6, #ff77c6)"
     }
-    // Add more games here in the future
   ];
 
   const handleGameSelect = (gameId) => {
@@ -40,142 +33,171 @@ const Games = () => {
   };
 
   return (
-    <div className={`games-gallery ${isLoaded ? 'loaded' : ''}`}>
-      {/* Hero Section */}
-      <section className="games-hero">
-        <div className="hero-background">
-          <div className="floating-particles">
-            {[...Array(20)].map((_, i) => (
-              <div key={i} className="particle" style={{
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${3 + Math.random() * 4}s`
-              }}></div>
-            ))}
+    <div className={`games-page ${isLoaded ? 'loaded' : ''}`}>
+      {/* Enhanced Header */}
+      <header className="games-header">
+        <div className="header-background">
+          <div className="floating-elements">
+            <div className="floating-circle circle-1"></div>
+            <div className="floating-circle circle-2"></div>
+            <div className="floating-circle circle-3"></div>
           </div>
         </div>
-        
-        <div className="hero-content">
-          <div className="brand-intro">
+        <div className="header-content">
+          <div className="brand-logo">
             <h1 className="brand-title">
-              Phantom <span className="gradient-text">Gambit</span>
+              Phantom <span className="accent">Gambit</span>
             </h1>
-            <p className="brand-subtitle">Where Strategy Meets Deception</p>
-            <div className="brand-tagline">
-              Immerse yourself in our collection of mind-bending board games designed 
-              for strategic thinkers and master deceivers. Each game offers unique 
-              challenges and unforgettable experiences.
-            </div>
+            <div className="title-underline"></div>
           </div>
+          <p className="brand-subtitle">Where Strategy Meets Deception</p>
+          <p className="brand-description">
+            Immerse yourself in our collection of mind-bending board games designed 
+            for strategic thinkers and master deceivers.
+          </p>
         </div>
-        
         <div className="scroll-indicator">
-          <div className="mouse">
-            <div className="wheel"></div>
-          </div>
-          <p>Explore Our Games</p>
+          <div className="scroll-arrow"></div>
         </div>
-      </section>
+      </header>
 
-      {/* Games Grid Section */}
-      <section className="games-grid-section">
+      {/* Enhanced Games Section */}
+      <section className="games-section">
         <div className="container">
           <div className="section-header">
-            <h2>Our Games Collection</h2>
-            <p>Discover unique gaming experiences crafted for strategic minds</p>
+            <h2 className="section-title">Featured Game</h2>
+            <p className="section-subtitle">Experience the ultimate deception challenge</p>
           </div>
-
+          
           <div className="games-grid">
             {games.map((game, index) => (
-              <div
-                key={game.id}
+              <div 
+                key={game.id} 
                 className={`game-card ${game.featured ? 'featured' : ''} ${
-                  hoveredGame === game.id ? 'hovered' : ''
+                  hoveredCard === game.id ? 'hovered' : ''
                 }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onMouseEnter={() => setHoveredGame(game.id)}
-                onMouseLeave={() => setHoveredGame(null)}
+                style={{ '--card-color': game.color, '--card-gradient': game.gradient }}
+                onMouseEnter={() => setHoveredCard(game.id)}
+                onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => handleGameSelect(game.id)}
               >
-                <div className="game-card-inner">
-                  <div className="card-background" style={{
-                    background: `linear-gradient(135deg, ${game.color}20, #000000)`
-                  }}></div>
-                  
-                  <div className="game-badge">
-                    {game.featured && <span className="featured-badge">⭐ Featured</span>}
-                    <span className="rating-badge">★ {game.rating}</span>
-                    <span className="release-badge">{game.releaseDate}</span>
+                {/* Card Background Effects */}
+                <div className="card-glow"></div>
+                <div className="card-background"></div>
+                
+                {/* Card Header */}
+                <div className="card-header">
+                  <div className="game-badges">
+                    {game.featured && (
+                      <span className="featured-badge">
+                        <span className="badge-star">⭐</span>
+                        Featured Game
+                      </span>
+                    )}
+                    <span className="rating-badge">
+                      ★ {game.rating}
+                    </span>
                   </div>
-
-                  <div className="game-content">
-                    <div className="game-header">
-                      <h3 className="game-title">{game.title}</h3>
-                      <p className="game-subtitle">{game.subtitle}</p>
-                    </div>
-                    
-                    <p className="game-description">{game.description}</p>
-                    
-                    <div className="game-meta">
-                      <div className="meta-item">
-                        <span className="meta-icon">👥</span>
-                        <span>{game.players} Players</span>
-                      </div>
-                      <div className="meta-item">
-                        <span className="meta-icon">⏱️</span>
-                        <span>{game.duration}</span>
-                      </div>
-                      <div className="meta-item">
-                        <span className="meta-icon">🎯</span>
-                        <span>Age {game.age}</span>
-                      </div>
-                    </div>
-
-                    <div className="game-tags">
-                      {game.tags.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="game-tag">{tag}</span>
-                      ))}
-                    </div>
+                  <div className="card-corner">
+                    <div className="corner-accent"></div>
                   </div>
-
-                  <div className="card-cta">
-                    <button className="explore-btn">
-                      Explore Game
-                      <span className="btn-arrow">→</span>
-                    </button>
-                  </div>
-
-                  <div className="card-glow" style={{
-                    background: `radial-gradient(circle at center, ${game.color}30, transparent 70%)`
-                  }}></div>
                 </div>
+
+                {/* Card Content */}
+                <div className="card-content">
+                  <div className="game-header">
+                    <h3 className="game-name">{game.title}</h3>
+                    <p className="game-type">{game.subtitle}</p>
+                  </div>
+                  
+                  <p className="game-desc">{game.description}</p>
+                  
+                  <div className="game-stats">
+                    <div className="stat-group">
+                      <div className="stat-item">
+                        <div className="stat-icon">👥</div>
+                        <div className="stat-info">
+                          <span className="stat-value">{game.players}</span>
+                          <span className="stat-label">Players</span>
+                        </div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-icon">⏱️</div>
+                        <div className="stat-info">
+                          <span className="stat-value">{game.duration}</span>
+                          <span className="stat-label">Duration</span>
+                        </div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-icon">🎯</div>
+                        <div className="stat-info">
+                          <span className="stat-value">{game.age}</span>
+                          <span className="stat-label">Age</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="game-tags">
+                    {game.tags.map((tag, idx) => (
+                      <span key={idx} className="tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div className="card-footer">
+                  <button className="explore-btn">
+                    <span className="btn-text">Explore Game</span>
+                    <span className="btn-arrow">→</span>
+                    <div className="btn-shine"></div>
+                  </button>
+                </div>
+
+                {/* Hover Effect Layer */}
+                <div className="card-hover-effect"></div>
               </div>
             ))}
           </div>
 
-          {/* Coming Soon Section */}
-          <div className="coming-soon-section">
-            <div className="coming-soon-content">
-              <h3>More Strategic Experiences Coming Soon</h3>
-              <p>We're constantly developing new games that challenge your mind and test your deception skills</p>
-              <div className="coming-soon-grid">
-                {[
-                  { name: "Shadow Realms", type: "Fantasy Strategy" },
-                  { name: "Neon Nexus", type: "Cyberpunk Bluffing" },
-                  { name: "Royal Intrigue", type: "Political Deception" }
-                ].map((game, index) => (
-                  <div key={index} className="coming-soon-card">
-                    <div className="mystery-game">
-                      <div className="mystery-icon">🎮</div>
-                      <div className="mystery-content">
-                        <h4>{game.name}</h4>
-                        <p>{game.type}</p>
-                      </div>
-                      <div className="coming-soon-badge">Coming Soon</div>
+          {/* Enhanced Coming Soon Section */}
+          <div className="coming-soon">
+            <div className="coming-header">
+              <h3 className="coming-title">Future Releases</h3>
+              <p className="coming-subtitle">More strategic experiences in development</p>
+            </div>
+            <div className="coming-grid">
+              {[
+                { 
+                  name: "Shadow Realms", 
+                  type: "Fantasy Strategy",
+                  icon: "⚔️"
+                },
+                { 
+                  name: "Neon Nexus", 
+                  type: "Cyberpunk Bluffing",
+                  icon: "🔮"
+                },
+                { 
+                  name: "Royal Intrigue", 
+                  type: "Political Deception",
+                  icon: "👑"
+                }
+              ].map((game, idx) => (
+                <div key={idx} className="coming-card">
+                  <div className="coming-content">
+                    <div className="coming-icon">{game.icon}</div>
+                    <div className="coming-info">
+                      <h4>{game.name}</h4>
+                      <p>{game.type}</p>
                     </div>
+                    <span className="coming-badge">Coming Soon</span>
                   </div>
-                ))}
-              </div>
+                  <div className="coming-glow"></div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

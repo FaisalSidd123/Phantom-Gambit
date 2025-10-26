@@ -3,267 +3,219 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './GameDetails.css';
 
 const GameDetails = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
-  const [game, setGame] = useState(null);
-  const { gameId } = useParams();
   const navigate = useNavigate();
+  const { gameId } = useParams();
 
   useEffect(() => {
-    setIsLoaded(true);
-    // Fetch game data based on gameId
-    const gameData = getGameData(gameId);
-    setGame(gameData);
-    
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
-  }, [gameId]);
+  }, []);
 
-  const getGameData = (id) => {
-    // Mock data - in real app, this would come from an API
-    const games = {
-      deceptionist: {
-        id: 'deceptionist',
-        title: "Deceptionist",
-        subtitle: "A Game of Lies and Strategy",
-        description: "In a world where truth is scarce and deception reigns, players must outwit their opponents through cunning strategies and clever bluffs. Uncover the truth while hiding your own secrets.",
-        fullDescription: "Deceptionist is a social deduction game that pits players against each other in a battle of wits and deception. With asymmetric roles, dynamic gameplay, and multiple paths to victory, every game is a unique experience that will test your ability to read others while concealing your own intentions.",
-        features: [
-          "2-6 Players | 45-90 Minutes | Ages 14+",
-          "Social Deduction & Strategic Bluffing",
-          "Asymmetric Player Roles with Unique Abilities",
-          "Dynamic Gameplay with Multiple Endings",
-          "High Replayability with Variable Setups",
-          "Beautifully Crafted Components and Artwork"
-        ],
-        rules: [
-          "Each player receives a secret role card determining their allegiance and special abilities",
-          "Players take turns performing actions while carefully maintaining their cover story",
-          "Use deduction cards to gather information and reveal other players' secrets",
-          "Engage in strategic voting phases to eliminate suspected opponents",
-          "The game ends when either the Truth Seekers expose the Master Deceptionist or the Deceptionists achieve their hidden objectives",
-          "Special event cards can dramatically shift the balance of power at any moment"
-        ],
-        components: [
-          "Double-sided Game Board with different scenarios",
-          "6 Detailed Character Tokens",
-          "45 Action Cards with special abilities",
-          "30 Deduction Cards for information gathering",
-          "12 Secret Role Cards with unique powers",
-          "25 Mystery Tokens & Objective Markers",
-          "Rulebook with advanced strategies",
-          "Custom Dice Set for resolution"
-        ],
-        price: "49.99",
-        players: "2-6",
-        duration: "45-90min",
-        age: "14+",
-        rating: "4.8",
-        complexity: "Medium",
-        tags: ["Social Deduction", "Strategy", "Bluffing", "Party Game", "Asymmetric"],
-        color: '#7877c6'
-      }
-    };
-    
-    return games[id] || null;
+  const gameData = {
+    title: "Deceptionist",
+    subtitle: "A Game of Lies and Strategy",
+    description: "In a world where truth is scarce and deception reigns, players must outwit opponents through cunning strategies and clever bluffs.",
+    price: "49.99",
+    players: "2-6",
+    duration: "45-90min",
+    age: "14+",
+    rating: "4.8",
+    features: [
+      "Social Deduction & Strategic Gameplay",
+      "Asymmetric Player Roles",
+      "Dynamic Gameplay with Multiple Endings",
+      "High Replayability"
+    ],
+    rules: [
+      "Each player receives a secret role with unique abilities",
+      "Take turns performing actions while maintaining cover",
+      "Use deduction cards to reveal information",
+      "Game ends when objectives are achieved"
+    ],
+    components: [
+      "Game Board",
+      "Character Tokens",
+      "Action Cards",
+      "Deduction Cards",
+      "Secret Role Cards"
+    ]
   };
-
-  const handleBackToGames = () => {
-    navigate('/games');
-  };
-
-  if (!game) {
-    return (
-      <div className="game-details-loading">
-        <div className="loading-spinner"></div>
-        <p>Loading game details...</p>
-      </div>
-    );
-  }
 
   return (
-    <div className={`game-details-page ${isLoaded ? 'loaded' : ''}`}>
+    <div className="gd-page">
       {/* Back Button */}
-      <button className="back-to-games-btn" onClick={handleBackToGames}>
-        <span className="back-arrow">←</span>
+      <button className="gd-back-btn" onClick={() => navigate('/games')}>
+        <span className="gd-btn-icon">←</span>
         Back to Games
       </button>
 
       {/* Hero Section */}
-      <section className="game-hero-section">
-        <div className="hero-background">
-          <div className="floating-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
+      <section className="gd-hero">
+        <div className="gd-hero-background">
+          <div className="gd-hero-glow gd-glow-1"></div>
+          <div className="gd-hero-glow gd-glow-2"></div>
         </div>
-        
-        <div className="hero-content">
-          <div className="game-logo">
-            <h1 className="game-title">{game.title}</h1>
-            <p className="game-subtitle">{game.subtitle}</p>
+        <div className="gd-hero-content">
+          <div className="gd-title-container">
+            <h1 className="gd-game-title">
+              <span className="gd-title-text">{gameData.title}</span>
+              <span className="gd-title-shadow">{gameData.title}</span>
+            </h1>
+            <div className="gd-title-accent"></div>
           </div>
           
-          <div className="game-quick-info">
-            <div className="info-grid">
-              <div className="info-item">
-                <span className="info-label">Players</span>
-                <span className="info-value">{game.players}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Duration</span>
-                <span className="info-value">{game.duration}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Age</span>
-                <span className="info-value">{game.age}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Complexity</span>
-                <span className="info-value">{game.complexity}</span>
-              </div>
+          <p className="gd-game-subtitle">{gameData.subtitle}</p>
+          <p className="gd-game-description">{gameData.description}</p>
+          
+          <div className="gd-game-stats">
+            <div className="gd-stat">
+              <div className="gd-stat-icon">👥</div>
+              <span className="gd-stat-value">{gameData.players}</span>
+              <span className="gd-stat-label">Players</span>
+            </div>
+            <div className="gd-stat">
+              <div className="gd-stat-icon">⏱️</div>
+              <span className="gd-stat-value">{gameData.duration}</span>
+              <span className="gd-stat-label">Duration</span>
+            </div>
+            <div className="gd-stat">
+              <div className="gd-stat-icon">🎯</div>
+              <span className="gd-stat-value">{gameData.age}</span>
+              <span className="gd-stat-label">Age</span>
+            </div>
+            <div className="gd-stat">
+              <div className="gd-stat-icon">⭐</div>
+              <span className="gd-stat-value">{gameData.rating}</span>
+              <span className="gd-stat-label">Rating</span>
             </div>
           </div>
-          
-          <div className="hero-actions">
-            <button className="play-now-btn">
-              <span className="btn-text">Buy Now - ${game.price}</span>
-              <div className="btn-shine"></div>
-            </button>
-            
-            <button className="watch-trailer-btn">
-              <span className="btn-icon">▶</span>
-              Watch Gameplay Trailer
-            </button>
 
-            <button className="wishlist-btn">
-              <span className="btn-icon">❤</span>
-              Add to Wishlist
+          <div className="gd-hero-actions">
+            <button className="gd-primary-btn">
+              <span className="gd-btn-sparkle">✨</span>
+              Buy Now - ${gameData.price}
+              <span className="gd-btn-sparkle">✨</span>
+            </button>
+            <button className="gd-secondary-btn">
+              <span className="gd-btn-play">▶</span>
+              Watch Trailer
             </button>
           </div>
-        </div>
-        
-        <div className="scroll-indicator">
-          <div className="scroll-arrow"></div>
-          <p>Discover More</p>
         </div>
       </section>
 
-      {/* Game Content Section */}
-      <section className="game-content-section">
-        <div className="container">
-          {/* Navigation Tabs */}
-          <nav className="content-tabs">
-            {['overview', 'features', 'rules', 'components', 'gallery'].map(tab => (
+      {/* Content Tabs */}
+      <section className="gd-content-section">
+        <div className="gd-container">
+          <nav className="gd-tabs-nav">
+            {['overview', 'features', 'rules', 'components'].map(tab => (
               <button
                 key={tab}
-                className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
+                className={`gd-tab ${activeTab === tab ? 'gd-tab-active' : ''}`}
                 onClick={() => setActiveTab(tab)}
               >
+                <span className="gd-tab-icon">
+                  {tab === 'overview' && '📖'}
+                  {tab === 'features' && '🚀'}
+                  {tab === 'rules' && '📝'}
+                  {tab === 'components' && '🎁'}
+                </span>
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </nav>
 
-          {/* Tab Content */}
-          <div className="tab-content">
+          <div className="gd-tab-content">
             {activeTab === 'overview' && (
-              <div className="tab-panel fade-in">
-                <h2>About {game.title}</h2>
-                <p className="game-full-description">{game.fullDescription}</p>
-                
-                <div className="game-stats">
-                  <div className="stats-grid">
-                    <div className="stat-card">
-                      <div className="stat-icon">👥</div>
-                      <div className="stat-number">{game.players}</div>
-                      <div className="stat-label">Players</div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-icon">⏱️</div>
-                      <div className="stat-number">{game.duration}</div>
-                      <div className="stat-label">Duration</div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-icon">🎯</div>
-                      <div className="stat-number">{game.age}</div>
-                      <div className="stat-label">Age</div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-icon">⭐</div>
-                      <div className="stat-number">{game.rating}/5</div>
-                      <div className="stat-label">Rating</div>
-                    </div>
-                  </div>
+              <div className="gd-tab-panel">
+                <div className="gd-panel-header">
+                  <h2>About the Game</h2>
+                  <div className="gd-header-decoration"></div>
                 </div>
-
-                <div className="game-tags-showcase">
-                  <h3>Game Categories</h3>
-                  <div className="tags-container">
-                    {game.tags.map((tag, index) => (
-                      <span key={index} className="game-tag-large">{tag}</span>
-                    ))}
+                <p>Deceptionist is a social deduction game that pits players against each other in a battle of wits and deception. Every game is a unique experience that tests your ability to read others while concealing your own intentions.</p>
+                <div className="gd-overview-highlights">
+                  <div className="gd-highlight-card">
+                    <span className="gd-highlight-emoji">🎭</span>
+                    <h3>Social Deduction</h3>
+                    <p>Read players and bluff your way to victory</p>
+                  </div>
+                  <div className="gd-highlight-card">
+                    <span className="gd-highlight-emoji">⚡</span>
+                    <h3>Fast-Paced</h3>
+                    <p>45-90 minutes of intense gameplay</p>
+                  </div>
+                  <div className="gd-highlight-card">
+                    <span className="gd-highlight-emoji">🔄</span>
+                    <h3>High Replay</h3>
+                    <p>Never the same game twice</p>
                   </div>
                 </div>
               </div>
             )}
 
             {activeTab === 'features' && (
-              <div className="tab-panel fade-in">
-                <h2>Game Features</h2>
-                <div className="features-grid">
-                  {game.features.map((feature, index) => (
-                    <div key={index} className="feature-card">
-                      <div className="feature-icon">✦</div>
-                      <div className="feature-content">
-                        <p>{feature}</p>
-                      </div>
-                    </div>
-                  ))}
+              <div className="gd-tab-panel">
+                <div className="gd-panel-header">
+                  <h2>Game Features</h2>
+                  <div className="gd-header-decoration"></div>
                 </div>
+                <ul className="gd-features-list">
+                  {gameData.features.map((feature, idx) => (
+                    <li key={idx} className="gd-feature-item">
+                      <div className="gd-feature-icon">
+                        <div className="gd-icon-bg"></div>
+                        <span>✨</span>
+                      </div>
+                      <div className="gd-feature-content">
+                        <h3>{feature}</h3>
+                        <p>Experience this unique aspect that sets Deceptionist apart from other games.</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
             {activeTab === 'rules' && (
-              <div className="tab-panel fade-in">
-                <h2>How to Play</h2>
-                <div className="rules-container">
-                  {game.rules.map((rule, index) => (
-                    <div key={index} className="rule-card">
-                      <div className="rule-number">{index + 1}</div>
-                      <div className="rule-content">
-                        <p>{rule}</p>
-                      </div>
-                    </div>
-                  ))}
+              <div className="gd-tab-panel">
+                <div className="gd-panel-header">
+                  <h2>How to Play</h2>
+                  <div className="gd-header-decoration"></div>
                 </div>
+                <ol className="gd-rules-list">
+                  {gameData.rules.map((rule, idx) => (
+                    <li key={idx} className="gd-rule-item">
+                      <div className="gd-rule-step">
+                        <span className="gd-step-number">{idx + 1}</span>
+                        <div className="gd-step-line"></div>
+                      </div>
+                      <div className="gd-rule-content">
+                        <h3>{rule}</h3>
+                        <p>Detailed explanation of this step in the gameplay process.</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
               </div>
             )}
 
             {activeTab === 'components' && (
-              <div className="tab-panel fade-in">
-                <h2>What's in the Box</h2>
-                <div className="components-showcase">
-                  {game.components.map((component, index) => (
-                    <div key={index} className="component-item">
-                      <div className="component-icon">📦</div>
-                      <span className="component-text">{component}</span>
+              <div className="gd-tab-panel">
+                <div className="gd-panel-header">
+                  <h2>What's Included</h2>
+                  <div className="gd-header-decoration"></div>
+                </div>
+                <div className="gd-components-grid">
+                  {gameData.components.map((component, idx) => (
+                    <div key={idx} className="gd-component-card">
+                      <div className="gd-component-icon">
+                        <div className="gd-icon-shine"></div>
+                        <span>📦</span>
+                      </div>
+                      <h3>{component}</h3>
+                      <p>High-quality component designed for durability and aesthetic appeal.</p>
                     </div>
                   ))}
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'gallery' && (
-              <div className="tab-panel fade-in">
-                <h2>Game Gallery</h2>
-                <div className="gallery-placeholder">
-                  <div className="gallery-message">
-                    <span className="gallery-icon">🖼️</span>
-                    <h3>Game Images Coming Soon</h3>
-                    <p>Stay tuned for actual gameplay photos and component showcases</p>
-                  </div>
                 </div>
               </div>
             )}
@@ -272,24 +224,23 @@ const GameDetails = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="game-cta-section">
-        <div className="cta-content">
-          <h2>Ready to Enter the World of {game.title}?</h2>
-          <p>Join thousands of players who have already experienced the thrill of deception and strategy</p>
-          <div className="cta-buttons">
-            <button className="cta-primary">Buy Now - ${game.price}</button>
-            <button className="cta-secondary">Download Rulebook PDF</button>
-            <button className="cta-tertiary">Find a Retailer</button>
-          </div>
-          <div className="cta-features">
-            <div className="feature-guarantee">
-              <span className="guarantee-icon">✓</span>
-              <span>30-day money back guarantee</span>
-            </div>
-            <div className="feature-shipping">
-              <span className="shipping-icon">🚚</span>
-              <span>Free shipping on orders over $75</span>
-            </div>
+      <section className="gd-cta-section">
+        <div className="gd-cta-background">
+          <div className="gd-cta-glow"></div>
+        </div>
+        <div className="gd-cta-content">
+          <h2>Ready to Deceive?</h2>
+          <p>Join thousands of players experiencing the thrill of deception and strategy. Will you be the master deceiver?</p>
+          <div className="gd-cta-buttons">
+            <button className="gd-cta-primary">
+              <span className="gd-cta-sparkle">🎲</span>
+              Buy Now - ${gameData.price}
+              <span className="gd-cta-sparkle">🎲</span>
+            </button>
+            <button className="gd-cta-secondary">
+              <span className="gd-cta-icon">📥</span>
+              Download Rulebook
+            </button>
           </div>
         </div>
       </section>

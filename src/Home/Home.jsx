@@ -124,7 +124,7 @@ import About from '../About/About';
             </button>
           </div>
           <div className="nav-item">
-            <button onClick={() => handleNavClick('tournaments')}>
+            <button onClick={() => handleNavClick('contact')}>
               <FaTrophy className="nav-icon" />
               <span>TOURNAMENTS</span>
             </button>
