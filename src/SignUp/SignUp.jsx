@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaArrowRight, FaGoogle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useAuth } from '../Context/authContext';
 import { doCreateUserWithEmailAndPassword, doSignInWithGoogle } from '../Firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
-import SignIn from '../SignIn/SignIn';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -21,17 +20,6 @@ const SignUp = () => {
   const modalRef = useRef();
   const { setCurrentUser, setUserRole } = useAuth();
   const navigate = useNavigate();
-
-  // Click outside to close
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (modalRef.current && !modalRef.current.contains(event.target)) {
-  //       onClose();
-  //     }
-  //   };
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => document.removeEventListener('mousedown', handleClickOutside);
-  // }, [onClose]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,8 +54,8 @@ const SignUp = () => {
   };
 
   const MovetoSignIn = () => {
-    navigate("/signin")
-  }
+    navigate("/signin");
+  };
 
   const handleGoogleSignIn = async () => {
     setError('');
@@ -75,7 +63,6 @@ const SignUp = () => {
     
     try {
       await doSignInWithGoogle();
-      // Auth state change will be handled by AuthProvider
       navigate('/');
     } catch (error) {
       setError(error.message);
@@ -83,7 +70,6 @@ const SignUp = () => {
     }
   };
 
-  // Ripple effect
   const createRipple = (e) => {
     const button = e.currentTarget;
     const circle = document.createElement("span");
@@ -93,18 +79,18 @@ const SignUp = () => {
     circle.style.width = circle.style.height = `${diameter}px`;
     circle.style.left = `${e.clientX - button.offsetLeft - radius}px`;
     circle.style.top = `${e.clientY - button.offsetTop - radius}px`;
-    circle.classList.add("ripple");
+    circle.classList.add("signup-ripple");
 
-    const ripple = button.getElementsByClassName("ripple")[0];
+    const ripple = button.getElementsByClassName("signup-ripple")[0];
     if (ripple) ripple.remove();
 
     button.appendChild(circle);
   };
 
   return (
-    <div className="signup-overlay">
+    <div className="signup-page-overlay">
       <motion.div 
-        className="signup-backdrop"
+        className="signup-page-backdrop"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -113,7 +99,7 @@ const SignUp = () => {
       
       <motion.div 
         ref={modalRef}
-        className="signup-container"
+        className="signup-modal-container"
         initial={{ scale: 0.8, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -124,19 +110,18 @@ const SignUp = () => {
         }}
       >
         <motion.div 
-          className="signup-header"
+          className="signup-modal-header"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <h2>JOIN THE GAMBIT</h2>
-          <p>Create your account to access exclusive features</p>
-         
+          <h2 className="signup-modal-title">JOIN THE GAMBIT</h2>
+          <p className="signup-modal-subtitle">Create your account to access exclusive features</p>
         </motion.div>
 
         {error && (
           <motion.div 
-            className="auth-error-message"
+            className="signup-error-message"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -145,100 +130,104 @@ const SignUp = () => {
           </motion.div>
         )}
 
-        <form onSubmit={handleSubmit} className="signup-form">
+        <form onSubmit={handleSubmit} className="signup-form-container">
           <motion.div 
-            className="input-group"
+            className="signup-input-group"
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="input-wrapper">
-              <FaUser className="input-icon" />
+            <div className="signup-input-wrapper">
+              <FaUser className="signup-input-icon" />
               <input
                 type="text"
                 name="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
+                className="signup-form-input"
                 required
               />
-              <div className="input-underline"></div>
+              <div className="signup-input-underline"></div>
             </div>
           </motion.div>
 
           <motion.div 
-            className="input-group"
+            className="signup-input-group"
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <div className="input-wrapper">
-              <FaEnvelope className="input-icon" />
+            <div className="signup-input-wrapper">
+              <FaEnvelope className="signup-input-icon" />
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
+                className="signup-form-input"
                 required
               />
-              <div className="input-underline"></div>
+              <div className="signup-input-underline"></div>
             </div>
           </motion.div>
 
           <motion.div 
-            className="input-group"
+            className="signup-input-group"
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="input-wrapper">
-              <FaLock className="input-icon" />
+            <div className="signup-input-wrapper">
+              <FaLock className="signup-input-icon" />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
+                className="signup-form-input"
                 required
                 minLength="6"
               />
               <button 
                 type="button" 
-                className="password-toggle"
+                className="signup-password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
-              <div className="input-underline"></div>
+              <div className="signup-input-underline"></div>
             </div>
           </motion.div>
 
           <motion.div 
-            className="input-group"
+            className="signup-input-group"
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <div className="input-wrapper">
-              <FaLock className="input-icon" />
+            <div className="signup-input-wrapper">
+              <FaLock className="signup-input-icon" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                className="signup-form-input"
                 required
                 minLength="6"
               />
               <button 
                 type="button" 
-                className="password-toggle"
+                className="signup-password-toggle"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
-              <div className="input-underline"></div>
+              <div className="signup-input-underline"></div>
             </div>
           </motion.div>
 
@@ -249,50 +238,50 @@ const SignUp = () => {
           >
             <button 
               type="submit" 
-              className="signup-submit-btn"
+              className="signup-submit-button"
               onClick={createRipple}
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <span className="spinner"></span>
+                <span className="signup-spinner"></span>
               ) : (
                 <>
                   <span>CREATE ACCOUNT</span>
-                  <FaArrowRight className="arrow-icon" />
+                  <FaArrowRight className="signup-arrow-icon" />
                 </>
               )}
-              <div className="btn-hover-effect"></div>
+              <div className="signup-btn-hover-effect"></div>
             </button>
           </motion.div>
 
           <motion.div 
-            className="social-login"
+            className="signup-social-section"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
           >
-            <div className="divider">
+            <div className="signup-divider">
               <span>OR CONTINUE WITH</span>
             </div>
             <button 
               type="button" 
-              className="social-btn google"
+              className="signup-social-btn signup-google-btn"
               onClick={handleGoogleSignIn}
               disabled={isSubmitting}
             >
-              <FaGoogle />
+              <FaGoogle className="signup-social-icon" />
               <span>Google</span>
             </button>
           </motion.div>
         </form>
 
         <motion.div 
-          className="signin-link"
+          className="signup-login-redirect"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          Already have an account? <button onClick={MovetoSignIn}>Sign In</button>
+          Already have an account? <button className="signup-login-link" onClick={MovetoSignIn}>Sign In</button>
         </motion.div>
       </motion.div>
     </div>
