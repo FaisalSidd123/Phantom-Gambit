@@ -8,9 +8,8 @@ import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
 import About from './About/About';
 import Layout from './Layout/Layout';
-
 import GameDetails from './GamesDetail/GamesDetail';
-import Games from './Games/Games'
+import Games from './Games/Games';
 import Contact from './Contact/Contact';
 
 function AppContent() {
@@ -18,8 +17,8 @@ function AppContent() {
   const ballpitRef = useRef();
   const location = useLocation();
 
-  // Show Ballpit only on home page and games gallery, not on individual game pages
-  const showBallpit = location.pathname === '/' || location.pathname === '/games';
+  // Show Ballpit ONLY on home page ('/')
+  const showBallpit = location.pathname === '/';
 
   return (
     <div className="app-container">
@@ -48,7 +47,7 @@ function AppContent() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/about" element={<About />} />
-         <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );

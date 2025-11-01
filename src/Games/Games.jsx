@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Particles from '../Particles/Particles';
 import './Games.css';
 
 const Games = () => {
@@ -9,6 +10,14 @@ const Games = () => {
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Add games-specific background class to body
+    document.body.classList.add('games-page-active');
+    
+    // Cleanup on component unmount
+    return () => {
+      document.body.classList.remove('games-page-active');
+    };
   }, []);
 
   const games = [
@@ -34,6 +43,21 @@ const Games = () => {
 
   return (
     <div className={`games-page ${isLoaded ? 'loaded' : ''}`}>
+               
+        {/* Use Particles Component */}
+      <Particles 
+        count={30} 
+        color="#8b5cf6" 
+        size={4} 
+        duration={8}
+        className="games-particles"
+      />
+      {/* Games-specific background */}
+      <div className="games-background">
+        <div className="games-bg-pattern"></div>
+        <div className="games-bg-overlay"></div>
+      </div>
+      
       {/* Enhanced Header */}
       <header className="games-header">
         <div className="header-background">

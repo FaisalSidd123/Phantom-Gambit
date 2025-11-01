@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './GameDetails.css';
+import Particles from '../Particles/Particles';
 
 const GameDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -43,11 +44,19 @@ const GameDetails = () => {
 
   return (
     <div className="gd-page">
+
+       <Particles 
+        count={30} 
+        color="#8b5cf6" 
+        size={4} 
+        duration={8}
+        className="games-particles"
+      />
       {/* Back Button */}
-      <button className="gd-back-btn" onClick={() => navigate('/games')}>
+      {/* <button className="gd-back-btn" onClick={() => navigate('/games')}>
         <span className="gd-btn-icon">←</span>
         Back to Games
-      </button>
+      </button> */}
 
       {/* Hero Section */}
       <section className="gd-hero">
