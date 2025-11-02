@@ -4,6 +4,7 @@ import { FaChevronRight, FaGamepad, FaTrophy, FaInfoCircle, FaUser, FaBars, FaTi
 import { useAuth } from "../Context/authContext";
 import { doSignOut } from "../Firebase/auth";
 import About from '../About/About';
+import Navbar from '../Navbar/Nav';
 
 
 
@@ -13,35 +14,17 @@ import About from '../About/About';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleNavClick = (section) => {
-    navigate(`/${section.toLowerCase()}`);
-    setIsMobileMenuOpen(false);
-  };
 
   const handleExploreClick = () => {
     navigate('/games');
   };
   
-  const handleSignIn = () => {
-    navigate('/signin');
-  };
 
-  const handleSignUp = () => {
-    navigate('/signup');
-  };
 
-  const handleSignOut = async () => {
-    try {
-      await doSignOut();
-      navigate('/');
-    } catch (error) {
-      console.error("Sign out error:", error);
-    }
-  };
+ 
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+
+
 
   return (
     <div className="home-container">
@@ -80,7 +63,7 @@ import About from '../About/About';
         {/* Enhanced CTA Button */}
         <div className="cta-container">
           <button className="cta-button" onClick={handleExploreClick}>
-            <span className="cta-text">EXPLORE TOURNAMENTS</span>
+            <span className="cta-text">EXPLORE GAMES</span>
             <span className="cta-icon"><FaChevronRight /></span>
             <div className="cta-hover"></div>
             <div className="cta-pulse"></div>
@@ -102,70 +85,9 @@ import About from '../About/About';
         </div>
       </div>
 
-      {/* Modern Navigation with Auth Buttons */}
-       <nav className="main-nav">
-        <div className="nav-mobile-header">
-          <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
-            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-          {currentUser && (
-            <div className="user-display-mobile">
-              <FaUser className="user-icon" />
-              <span>{currentUser.displayName || currentUser.email.split('@')[0]}</span>
-            </div>
-          )}
-        </div>
+      <Navbar />
 
-        <div className={`nav-items ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-          <div className="nav-item">
-            <button onClick={() => handleNavClick('games')}>
-              <FaGamepad className="nav-icon" />
-              <span>GAMES</span>
-            </button>
-          </div>
-          <div className="nav-item">
-            <button onClick={() => handleNavClick('contact')}>
-              <FaTrophy className="nav-icon" />
-              <span>TOURNAMENTS</span>
-            </button>
-          </div>
-          <div className="nav-item">
-            <button onClick={() => handleNavClick('about')}>
-              <FaInfoCircle className="nav-icon" />
-              <span>ABOUT</span>
-            </button>
-          </div>
-        </div>
-        
-            
-        <div className={`auth-buttons ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-          {currentUser ? (
-            <div className="user-section">
-              <div className="user-display">
-                <FaUser className="user-icon" />
-                <span>{currentUser.displayName || currentUser.email.split('@')[0]}</span>
-              </div>
-              <button className="auth-btn signout-btn" onClick={handleSignOut}>
-                <span className="auth-btn-text">SIGN OUT</span>
-                <span className="auth-btn-glow"></span>
-              </button>
-            </div>
-          ) : (
-            <>
-              <button className="auth-btn signup-btn" onClick={handleSignIn}>
-                <span className="auth-btn-text">SIGN IN</span>
-                <span className="auth-btn-glow"></span>
-              </button>
-              <button className="auth-btn signup-btn" onClick={handleSignUp}>
-                <span className="auth-btn-text">SIGN UP</span>
-                <span className="auth-btn-glow"></span>
-              </button>
-            </>
-          )}
-          
-        </div>
-  
-      </nav>
+     
            
     </div>
   );
